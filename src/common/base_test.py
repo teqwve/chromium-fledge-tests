@@ -29,6 +29,8 @@ NSSDB_DIR = str(pathlib.Path(__file__).absolute().parent / "ssl" / "ca" / "nssdb
 
 CHROME_HEADLESS = os.environ.get('CHROME_HEADLESS', '0').lower() not in ['0', 'false']
 
+PRIVACY_SANDBOX_ENROLLMENT_OVERRIDES = ['https://localhost']
+
 class BaseTest(unittest.TestCase):
 
     def non_feature_options(self) -> webdriver.ChromeOptions:
@@ -46,6 +48,7 @@ class BaseTest(unittest.TestCase):
         options.add_argument('--disable-gpu')
         options.add_argument(f'--user-data-dir={PROFILE_DIR}')
         options.add_argument('--disable-features=ChromeWhatsNewUI')
+        options.add_argument(f'--privacy-sandbox-enrollment-overrides={",".join(PRIVACY_SANDBOX_ENROLLMENT_OVERRIDES)}')
         return options
 
     def options(self) -> webdriver.ChromeOptions:
